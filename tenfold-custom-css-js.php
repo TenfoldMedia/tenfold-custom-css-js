@@ -29,15 +29,19 @@ add_action('wp_footer', 'tf_render_sitewide_js', $priority - 1);
 
 
 function tf_render_custom_css() {
-	if (!is_archive() /* otherwise get_field will get the CSS from the first post in the loop, which we don't want */ && get_field('custom_css')) {
-		the_field('custom_css');
-	}
+	if (!is_archive() /* otherwise get_field will get the CSS from the first post in the loop, which we don't want */ && get_field('custom_css')) { ?>
+		<!--noptimize-->
+		<?php the_field('custom_css'); ?>
+		<!--/noptimize-->
+	<?php }
 }
 add_action('wp_head', 'tf_render_custom_css', $priority);
 
 function tf_render_custom_js() {
-	if (!is_archive() /* otherwise get_field will get the CSS from the first post in the loop, which we don't want */ && get_field('custom_js')) {
-		the_field('custom_js');
-	}
+	if (!is_archive() /* otherwise get_field will get the CSS from the first post in the loop, which we don't want */ && get_field('custom_js')) { ?>
+		<!--noptimize-->
+		<?php the_field('custom_js'); ?>
+		<!--/noptimize-->
+	<?php }
 }
 add_action('wp_footer', 'tf_render_custom_js', $priority);
