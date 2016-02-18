@@ -5,7 +5,7 @@ Plugin URI:        http://tenfold.media
 Description:       Renders CSS and JS added to pages/posts using the 'wp_head' and 'wp_footer' hooks. Note that ACF must be active and the field group must be set up - this plugin does not do that. Also enqueues sitewide CSS and JS files if they exist in the current theme directory (as tf-custom.css and tf-custom.js).
 Author:            Tim Rye
 Author URI:        http://tenfold.media/tim
-Version:           1.0.0
+Version:           1.0.1
 GitHub Plugin URI: TenfoldMedia/tenfold-custom-css-js
 GitHub Branch:     master
 ******************************************************************/
