@@ -5,7 +5,7 @@ Plugin URI:        http://tenfold.media
 Description:       Renders CSS and JS added to pages/posts using the 'wp_head' and 'wp_footer' hooks. Note that ACF must be active and the field group must be set up - this plugin does not do that. Also enqueues sitewide CSS and JS files if they exist in the current theme directory (as tf-custom.css and tf-custom.js).
 Author:            Tim Rye
 Author URI:        http://tenfold.media/tim
-Version:           1.0.4
+Version:           1.0.5
 GitHub Plugin URI: TenfoldMedia/tenfold-custom-css-js
 GitHub Branch:     master
 ******************************************************************/
@@ -14,6 +14,12 @@ $priority = 1e6;
 
 
 function tf_enqueue_sitewide_css() {
+	if (get_template_directory() !== get_stylesheet_directory()) { // a child theme is being used; enqueue parent tf-custom.css too if it exists; before child
+		if (file_exists(get_template_directory() . '/tf-custom.css')) {
+			wp_enqueue_style('tf-sitewide-css-parent', get_template_directory_uri() . '/tf-custom.css');
+		}
+	}
+
 	if (file_exists(get_stylesheet_directory() . '/tf-custom.css')) {
 		wp_enqueue_style('tf-sitewide-css', get_stylesheet_directory_uri() . '/tf-custom.css');
 	}
@@ -25,6 +31,12 @@ add_action('wp_print_styles', 'tf_enqueue_sitewide_css', $priority);
 //   the only things it wont override are inline styles in the body
 
 function tf_enqueue_sitewide_js() {
+	if (get_template_directory() !== get_stylesheet_directory()) { // a child theme is being used; enqueue parent tf-custom.css too if it exists; before child
+		if (file_exists(get_template_directory() . '/tf-custom.js')) {
+			wp_enqueue_script('tf-sitewide-js-parent', get_template_directory_uri() . '/tf-custom.js');
+		}
+	}
+
 	if (file_exists(get_stylesheet_directory() . '/tf-custom.js')) {
 		wp_enqueue_script('tf-sitewide-js', get_stylesheet_directory_uri() . '/tf-custom.js', array('jquery'), '', true);
 	}
