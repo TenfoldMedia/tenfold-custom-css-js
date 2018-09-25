@@ -5,7 +5,7 @@ Plugin URI:        https://tenfold.co.uk
 Description:       Renders CSS and JS added to pages/posts using the 'wp_head' and 'wp_footer' hooks. Note that ACF must be active and the field group must be set up - this plugin does not do that. Also enqueues sitewide CSS and JS files if they exist in the current theme directory (as tf-custom.css and tf-custom.js).
 Author:            Tim Rye
 Author URI:        https://tenfold.co.uk/tim
-Version:           1.0.7
+Version:           1.0.8
 GitHub Plugin URI: TenfoldMedia/tenfold-custom-css-js
 GitHub Branch:     master
 ******************************************************************/
@@ -52,7 +52,9 @@ add_action('get_footer', 'tf_enqueue_sitewide_js');
 function tf_render_custom_css() {
 	if (!is_archive() /* otherwise get_field will get the CSS from the first post in the loop, which we don't want */ && function_exists('get_field') && function_exists('the_field') && get_field('custom_css')) { ?>
 		<!--noptimize-->
-		<?php the_field('custom_css'); ?>
+		<style>
+			<?php the_field('custom_css'); ?>
+		</style>
 		<!--/noptimize-->
 	<?php }
 }
@@ -60,7 +62,9 @@ add_action('wp_head', 'tf_render_custom_css', $priority);
 
 function tf_render_custom_js() {
 	if (!is_archive() /* otherwise get_field will get the CSS from the first post in the loop, which we don't want */ && function_exists('get_field') && function_exists('the_field') && get_field('custom_js')) { ?>
-		<?php the_field('custom_js'); ?>
+		<script>
+			<?php the_field('custom_js'); ?>
+		</script>
 	<?php }
 }
 add_action('wp_footer', 'tf_render_custom_js', $priority);
